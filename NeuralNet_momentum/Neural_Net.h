@@ -17,6 +17,7 @@ private:
 	vector<vec> training_input;
 	vector<vec> training_output;
 	vector<vec> test_input;
+	vector<vec> test_output;
 
 	int num_of_layers;
 	vector<int> num_of_neurons;
@@ -58,6 +59,8 @@ public:
 	void backpropagation_sgd();
 
 	double out_error(int k);
+
+	void rate(vector<vec> test_in, vector<vec> test_out);
 
 };
 #endif 

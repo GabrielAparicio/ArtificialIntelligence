@@ -53,13 +53,20 @@ void read_dataset(string file, vector<vec>& t_in, vector<vec>& t_out, int data_s
 int main()
 {
 	string name_file = "irisData.txt";
+	string test_name_file = "irisDataTest.txt";
 	vector<vec> in_iris;
 	vector<vec> out_iris;
-	read_dataset(name_file,in_iris,out_iris,150,4,3);
 
+	vector<vec> test_in_iris;
+	vector<vec> test_out_iris;
+
+
+	read_dataset(name_file,in_iris,out_iris,150,4,3);
+	read_dataset(name_file,test_in_iris,test_out_iris,150,4,3);
+
+	/*
 	vector<vec> train;
 	vec tmp;
-
  	//Primer tipo
 	tmp<<5.1/7.9<<3.5/4.4<<1.4/6.9<<0.2/2.5;
 	train.push_back(tmp); 
@@ -82,7 +89,7 @@ int main()
 	tmp<<5.8/7.9<<2.7/4.4<<5.1/6.9<<1.9/2.5;
 	train.push_back(tmp);
 	tmp<<7.1/7.9<<3.0/4.4<<5.9/6.9<<2.1/2.5;
-	train.push_back(tmp);
+	train.push_back(tmp);*/
 
 	vector<int> neurons;
 	neurons.push_back(4);
@@ -97,7 +104,10 @@ int main()
 	//Definiendo el momemtum - para ignorar este parametro basta con utilizar un momemtum = 0
 	my_network.set_momentum(0.1);
 	my_network.backpropagation_sgd();
+	//my_network.backpropagation();
 
-	my_network.predict(train);
+	my_network.rate(test_in_iris,test_out_iris);
+
+	//my_network.predict(train);
 	return 0;
 }

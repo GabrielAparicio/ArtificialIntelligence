@@ -170,7 +170,7 @@ void Neural_Net::backpropagation()
 		double err=0.5;
 		int my_iters =0;
 
-		while(err>0.01)
+		while(err>0.001)
 		{
 			err = 0;
 			for(int i=0;i<training_input.size();i++)
@@ -216,4 +216,39 @@ double Neural_Net::out_error(int k)
 
 		sum_error *= 0.5;
 		return sum_error;
+}
+
+void Neural_Net::rate(vector<vec> test_in, vector<vec> test_out)
+{
+	test_input = test_in;
+	test_output = test_out;
+
+	int my_size = test_input.size();
+	vec tmp_vec;
+	double sum_error = 0;
+	int count = 0;
+
+	for(int i=0;i<my_size;i++)
+	{
+		test_propagate(i);
+		tmp_vec = layers[num_of_layers-1].activation_units - test_output[i];
+		
+		for(int k=0;i<tmp_vec.n_elem;i++)
+		{
+			sum_error += pow(tmp_vec(k),2);
+		}
+		sum_error *= 0.5;
+
+		if(sum_error<0.1)
+		{
+			count++;
+		}
+
+		sum_error = 0;
+	}
+
+	cout<<"Successful cases: "<<count<<endl;
+	cout<<"Total cases: "<<my_size<<endl;
+	cout<<"Rate is : "<<((count*1.0)/my_size)*100<<"%"<<endl;
+
 }
