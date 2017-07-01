@@ -51,12 +51,17 @@ public:
 	void backpropagation(int iters);
 
 	void backpropagation_sgd(int iters);
+
+	void backpropagation_mini_batch(int iters,int batch_size);
 	
 	//Proceso de backpropagation normal
 	void backpropagation();
 	
 	//Backpropagation estocastico - stochastic gradient descent
 	void backpropagation_sgd();
+
+	//Backpropagation minibatch 
+	void backpropagation_mini_batch(int batch_size);
 
 	double out_error(int k);
 

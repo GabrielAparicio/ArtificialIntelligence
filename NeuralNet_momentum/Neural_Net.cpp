@@ -170,7 +170,7 @@ void Neural_Net::backpropagation()
 		double err=0.5;
 		int my_iters =0;
 
-		while(err>0.001)
+		while(err>0.01)
 		{
 			err = 0;
 			for(int i=0;i<training_input.size();i++)
@@ -200,6 +200,55 @@ void Neural_Net::backpropagation_sgd()
 
 		}
 		cout<<"Iters: "<<my_iters<<endl;
+}
+
+
+void Neural_Net::backpropagation_mini_batch(int iters,int batch_size)
+{
+	int training_size = training_input.size();
+	int num_batches = training_size/batch_size;
+	mat tmp_gradient;
+
+	double err=0;
+
+	int j=0;
+	for(int i=0;i<iters;i++)
+	{
+		for(int k=batch_size*j;k<batch_size*(j+1);k++)
+		{
+			forward_propagate(k);
+			err += out_error(k);
+			back_propagate(k);
+		}
+
+		cout<<"Iter "<<i+1<<" Error: "<<err<<endl;
+		err=0;
+		j = (j+1)%num_batches;
+	}
+}
+
+
+void Neural_Net::backpropagation_mini_batch(int batch_size)
+{
+	int training_size = training_input.size();
+	int num_batches = training_size/batch_size;
+	int my_iters =0;
+	double err=0.5;
+
+	int j=0;
+	while(err>0.000001)
+	{
+		err=0;
+		for(int k=batch_size*j;k<batch_size*(j+1);k++)
+		{
+			forward_propagate(k);
+			err += out_error(k);
+			back_propagate(k);
+		}
+		my_iters++;
+		j = (j+1)%num_batches;
+	}
+	cout<<"Iters: "<<my_iters<<endl;
 }
 
 double Neural_Net::out_error(int k)
@@ -233,13 +282,13 @@ void Neural_Net::rate(vector<vec> test_in, vector<vec> test_out)
 		test_propagate(i);
 		tmp_vec = layers[num_of_layers-1].activation_units - test_output[i];
 		
-		for(int k=0;i<tmp_vec.n_elem;i++)
+		for(int k=0;k < tmp_vec.n_elem; k++)
 		{
 			sum_error += pow(tmp_vec(k),2);
 		}
 		sum_error *= 0.5;
 
-		if(sum_error<0.1)
+		if(sum_error<=0.1)
 		{
 			count++;
 		}
@@ -247,8 +296,8 @@ void Neural_Net::rate(vector<vec> test_in, vector<vec> test_out)
 		sum_error = 0;
 	}
 
-	cout<<"Successful cases: "<<count<<endl;
-	cout<<"Total cases: "<<my_size<<endl;
+	//cout<<"Successful cases: "<<count<<endl;
+	//cout<<"Total cases: "<<my_size<<endl;
 	cout<<"Rate is : "<<((count*1.0)/my_size)*100<<"%"<<endl;
 
 }

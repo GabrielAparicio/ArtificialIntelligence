@@ -12,8 +12,9 @@ public:
 	mat weights;
 	mat prev_gradient;
 	vec deltas;
+	int num_neurons;
 
-	Layer(int num_neurons);
+	Layer(int n_neurons);
 
 	void set_bias_coefficient();
 	
@@ -28,5 +29,7 @@ public:
 	void set_new_weight(mat new_weight);
 	
 	void set_deltas(vec del);
+
+	void reset_delta();
 };
 #endif 

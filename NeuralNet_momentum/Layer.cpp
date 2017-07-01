@@ -1,9 +1,15 @@
 #include "Layer.h"
 
-Layer::Layer(int num_neurons)
+Layer::Layer(int n_neurons)
 {
-		activation_units.zeros(num_neurons);
-		deltas.zeros(num_neurons);
+		activation_units.zeros(n_neurons);
+		deltas.zeros(n_neurons);
+		num_neurons = n_neurons;
+}
+
+void Layer::reset_delta()
+{
+	deltas.zeros(num_neurons);
 }
 
 void Layer::set_bias_coefficient()
