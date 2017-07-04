@@ -21,6 +21,6 @@
 - Capa output: 10
 
 
-### Momentum: 97.4%
-### Estocástico: 96.3%
-### Minibatch: 97.4%
+### Momentum: 96.4%
+### Estocástico: 95.3%
+### Minibatch: 96.4%
